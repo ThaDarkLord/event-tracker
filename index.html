@@ -2,11 +2,101 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script rel="stylesheet" href="./assets/css/style.css"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title>Event-Tracker</title>
 </head>
 <body>
+    <section class="columns is-multiline is-mobile m-4 ">
+        <!-- container above -->
+        <article class="column is-full m-4 ">
+            <section class="section">
+                <div class="container">
+                  <h1 class="title">
+                    Musician Event Locator
+                  </h1>
+                  <p class="subtitle">
+                    Why listen through headphones or car radios when you can join the crowd with <strong>MEL</strong>!
+                  </p>
+                </div>
+              </section>
+        </article>
+            <div class="column is-4">
+                <input type="text" placeholder="Search artist here..">
+                <button id="submitBtn" class="button is-small is-primary">Search</button>
+            </div>
+       <!-- the section below is for the artist basic information -->
+        <section class="column is-8 ">
+          basic artist info:
+          <p id="artName">Name:</p>
+          <p id="artGenre">Genre:</p>
+          <p id="artRecent">Recent Projects:</p>
+
+        </section>
+        <!-- end of first container below -->
+        </section>
+        <!-- second container below -->
+        <section class="columns is-multiline is-mobile m-4">
+            <section class="column is-4"></section>
+        <article class="column is-8">
+          Event Info:
+          <!-- this is the start of the cards section -->
+          <article id="eName"class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                Event Name:
+              </p>
+              <button class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </header>
+          </article>
+
+          <article id="eDateTime" class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                Date/Time:
+              </p>
+              <button class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </header>
+          </article>
+
+          <article id="eCity" class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                City:
+              </p>
+              <button class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </header>
+          </article>
+
+          <article id="eVenue" class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                Venue:
+              </p>
+              <button class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </header>
+          </article>
+        </article>
+        
+      </section>
+      <!-- end of second container above -->
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
