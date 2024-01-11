@@ -8,3 +8,10 @@
 .card{
     border: solid .5px;
 }
+.hideMe{
+    border: 0px;
+}
+
+/* #hidden-0, #hidden-1, #hidden-2{
+    display: none;
+} */
