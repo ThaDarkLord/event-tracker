@@ -35,10 +35,15 @@ function artistSearch(event) {
     .then(function (data) {
         console.log(data);
 
+        if(!data._embedded){
+            console.log(`No Data`);
+        }
+        else {
         eventNameDisplay.textContent = "Event Name: " + data._embedded.events[0].name;
         eventDateTime.textContent = "Date/Time: " + data._embedded.events[0].dates.start.dateTime
         eventCityDisplay.textContent = "City: " + data._embedded.events[0]._embedded.venues[0].city.name + ", " + data._embedded.events[0]._embedded.venues[0].state.stateCode
         eventVenueDisplay.textContent = "City: " + data._embedded.events[0]._embedded.venues[0].name
+        }
     })
 }
 
