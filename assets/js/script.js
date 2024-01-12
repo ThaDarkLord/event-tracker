@@ -92,13 +92,23 @@ function artistSearch(event) {
                         "Date/Time: " + data._embedded.events[i].dates.start.dateTime;
 
                     if (!data._embedded.events[i]._embedded.venues[0].state) {
-                        eventCityPara.textContent = "City: " + data._embedded.events[i]._embedded.venues[0].city.name 
+                        eventCityPara.textContent = "City: " + data._embedded.events[i]._embedded.venues[0].city.name
                     }
                     else {
                         eventCityPara.textContent = "City: " + data._embedded.events[i]._embedded.venues[0].city.name + ", " + data._embedded.events[i]._embedded.venues[0].state.stateCode;
                     }
                     eventVenuePara.textContent =
-                    "Venue: " + data._embedded.events[i]._embedded.venues[0].name;
+                        "Venue: " + data._embedded.events[i]._embedded.venues[0].name;
+
+
+                    var storedEName = data._embedded.events[0].name
+                    localStorage.setItem('EventName', storedEName)
+                    var storedEDate = data._embedded.events[0].dates.start.dateTime
+                    localStorage.setItem('EventDate', storedEDate)
+                    var storedELocation = data._embedded.events[0]._embedded.venues[0].city.name + data._embedded.events[0]._embedded.venues[0].state.stateCode
+                    localStorage.setItem('EventLocation', storedELocation)
+                    var storedEVenue = data._embedded.events[0]._embedded.venues[0].name
+                    localStorage.setItem('EventVenue', storedEVenue)
 
                     // }
 
@@ -111,10 +121,10 @@ function artistSearch(event) {
                     eventCityArticle.appendChild(eventCityHeader)
                     eventCityArticle.appendChild(eventCityPara)
 
-                    if(data._embedded.events[i]._embedded.venues[0].name){
-                    eventVenueArticle.appendChild(eventVenueHeader)
-                    eventVenueArticle.appendChild(eventVenuePara)
-                    } else{
+                    if (data._embedded.events[i]._embedded.venues[0].name) {
+                        eventVenueArticle.appendChild(eventVenueHeader)
+                        eventVenueArticle.appendChild(eventVenuePara)
+                    } else {
                         console.log(`No Venue`);
                     }
                     articleContainer.append(eventNameArticle, eventDtArticle, eventCityArticle, eventVenueArticle)
@@ -140,9 +150,9 @@ function cityStateSearch(event) {
             return response.json();
         })
         .then(function (data) {
-          
+
             for (let i = 0; i < data._embedded.events.length; i++) {
-                // console.log(data._embedded.events[i]);
+                console.log(data._embedded.events[i]);
 
                 // *Container Article
                 var articleContainer = document.createElement(`article`)
@@ -183,17 +193,22 @@ function cityStateSearch(event) {
                 // if (data._embedded.events[i] == data._embedded.events[2]) {
                 eventNamePara.textContent =
                     "Event Name: " + data._embedded.events[i].name;
-                eventDtPara.textContent =
-                    "Date/Time: " + data._embedded.events[i].dates.start.dateTime;
-
+                if (data._embedded.events[i].dates.start.dateTime) {
+                    eventDtPara.textContent =
+                        "Date/Time: " + data._embedded.events[i].dates.start.dateTime;
+                }
+                else {
+                    eventDtPara.textContent =
+                        "Date/Time: " + data._embedded.events[i].dates.start.localDate
+                }
                 if (!data._embedded.events[i]._embedded.venues[0].state) {
-                    eventCityPara.textContent = "City: " + data._embedded.events[i]._embedded.venues[0].city.name 
+                    eventCityPara.textContent = "City: " + data._embedded.events[i]._embedded.venues[0].city.name
                 }
                 else {
                     eventCityPara.textContent = "City: " + data._embedded.events[i]._embedded.venues[0].city.name + ", " + data._embedded.events[i]._embedded.venues[0].state.stateCode;
                 }
                 eventVenuePara.textContent =
-                "Venue: " + data._embedded.events[i]._embedded.venues[0].name;
+                    "Venue: " + data._embedded.events[i]._embedded.venues[0].name;
 
                 // }
 
@@ -206,10 +221,10 @@ function cityStateSearch(event) {
                 eventCityArticle.appendChild(eventCityHeader)
                 eventCityArticle.appendChild(eventCityPara)
 
-                if(data._embedded.events[i]._embedded.venues[0].name){
-                eventVenueArticle.appendChild(eventVenueHeader)
-                eventVenueArticle.appendChild(eventVenuePara)
-                } else{
+                if (data._embedded.events[i]._embedded.venues[0].name) {
+                    eventVenueArticle.appendChild(eventVenueHeader)
+                    eventVenueArticle.appendChild(eventVenuePara)
+                } else {
                     console.log(`No Venue`);
                 }
                 articleContainer.append(eventNameArticle, eventDtArticle, eventCityArticle, eventVenueArticle)
