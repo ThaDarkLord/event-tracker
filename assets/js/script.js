@@ -85,6 +85,11 @@ function artistSearch(event) {
                     eventVenuePara.setAttribute(`class`, `card-header-title event-name`)
 
 
+                    var eventSaveButton = document.createElement(`button`)
+                    eventSaveButton.setAttribute(`class`, `button is-small is-primary`)
+                    eventSaveButton.textContent = `Save Event`
+
+
                     // if (data._embedded.events[i] == data._embedded.events[2]) {
                     eventNamePara.textContent =
                         "Event Name: " + data._embedded.events[i].name;
@@ -127,7 +132,7 @@ function artistSearch(event) {
                     } else {
                         console.log(`No Venue`);
                     }
-                    articleContainer.append(eventNameArticle, eventDtArticle, eventCityArticle, eventVenueArticle)
+                    articleContainer.append(eventNameArticle, eventDtArticle, eventCityArticle, eventVenueArticle, eventSaveButton)
 
                     eventFeed.append(articleContainer)
 
@@ -240,3 +245,4 @@ function cityStateSearch(event) {
 
 artistForm.addEventListener(`submit`, artistSearch);
 cityStateForm.addEventListener(`submit`, cityStateSearch);
+
