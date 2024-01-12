@@ -1,4 +1,4 @@
-// MuiscBrainz.js
+// MusicBrainz.js
 //const requestUrl = `https://musicbrainz.org/ws/2/release?query=artist:${artistName}&fmt=json`;
 var searchArtist = document.querySelector(`#search-artist`);
 

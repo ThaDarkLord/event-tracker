@@ -1,22 +1,16 @@
 /* styles.css */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 20px;
-}
-
 #search-container {
     text-align: center;
     margin-bottom: 20px;
 }
 
-#artist-name {
-    padding: 8px;
-    font-size: 16px;
-}
-
+#artist-name,
 #search-artist {
     padding: 10px;
     font-size: 16px;
+}
+
+#artist-name {
     cursor: pointer;
 }
 
@@ -46,17 +40,13 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-    #search-container {
-        width: 100%;
-    }
-
-    #artist-name {
+    #search-container,
+    #artist-name,
+    #search-artist {
         width: 100%;
     }
 
     #search-artist {
-        width: 100%;
         margin-top: 10px;
     }
 }
-
