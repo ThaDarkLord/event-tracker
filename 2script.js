@@ -58,22 +58,58 @@ function getMusic(artistName) {
 function getMoreArtistInfo(artistName) {
   const lastFMArtistInfoURL = `${lastFMBaseURL}method=artist.getinfo&artist=${artistName}&api_key=${lastFMAPIKey}&format=json`;
 
-  fetchData(lastFMArtistInfoURL).then(function (artistData) {
-    console.log("Last.fm Artist Information", artistData);
+  fetchData(lastFMArtistInfoURL)
+    .then(function (artistData) {
+      console.log("Last.fm Artist Information", artistData);
 
-    // Display specific artist information on the web page
-    var artistDetails = document.createElement("div");
-    artistDetails.id = "artist-details";
-    artistDetails.innerHTML = `
+      if (artistData && artistData.artist) {
+        // Display specific artist information on the web page
+        var artistDetails = document.createElement("div");
+        artistDetails.id = "artist-details";
+        artistDetails.innerHTML = `
         <h3>Artist Information:</h3>
-        <p>Name: ${artistData.artist.name}</p>
-        <p>Listeners: ${artistData.artist.listeners || 0}</p>
-        <p>Playcount: ${artistData.artist.playcount || 0}</p>
-        <p>Biography: ${artistData.artist.bio.summary}</p>
-        <p>Most Popular Songs: ${getMostPopularSongs(artistData)}</p>
+        <p>Name: ${artistData.artist.name || "N/A"}</p>
+        <p>Listeners: ${
+          artistData.artist.stats
+            ? artistData.artist.stats.listeners || "N/A"
+            : "N/A"
+        }</p>
+        <p>Playcount: ${
+          artistData.artist.stats
+            ? artistData.artist.stats.playcount || "N/A"
+            : "N/A"
+        }</p>
+        <p>Biography: ${
+          artistData.artist.bio ? artistData.artist.bio.summary || "N/A" : "N/A"
+        }</p>
+        <p>Most Popular Songs: ${getMostPopularSongs(artistData) || "N/A"}</p>
       `;
-    document.body.appendChild(artistDetails);
-  });
+        document.body.appendChild(artistDetails);
+      } else {
+        console.error("Invalid artist data received:", artistData);
+        handleArtistInfoError();
+      }
+    })
+    .catch(function (error) {
+      console.error("Error fetching artist information:", error);
+      handleArtistInfoError();
+    });
+}
+
+function getMostPopularSongs(artistData) {
+  // based on the artistData received from Last.fm API.
+  return artistData.toptracks
+    ? artistData.toptracks.track.map((track) => track.name).join(", ")
+    : "N/A";
+}
+
+function handleArtistInfoError() {
+  // Handle the error or provide a user-friendly message
+  var errorDetails = document.createElement("div");
+  errorDetails.id = "artist-error";
+  errorDetails.innerHTML =
+    "<p>Error fetching artist information. Please try again later.</p>";
+  document.body.appendChild(errorDetails);
 }
 
 searchArtist.addEventListener(`click`, function () {
