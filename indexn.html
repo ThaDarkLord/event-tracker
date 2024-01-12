@@ -3,42 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Napster Favorites</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Music Info App</title>
 </head>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Napster Favorites</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 <body>
+    <label for="artist-name">Artist Name:</label>
+    <input type="text" id="artist-name" />
+    <button id="search-artist">Search</button>
 
-<div class="container mt-4">
-    <h1>Napster Favorites</h1>
+    <h2>Artist Information</h2>
+    <p id="the-artist"></p>
+    <ul id="artist-results"></ul>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Artist</th>
-                <th scope="col">Title</th>
-                <th scope="col">Streamable</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for index, row in favorites_df.iterrows() %}
-                <tr>
-                    <td>{{ row['artist'] }}</td>
-                    <td>{{ row['title'] }}</td>
-                    <td>{{ row['streamable'] }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+    <script>
+        var searchArtist = document.querySelector(`#search-artist`);
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        function getMusic(artistName) {
+            var musicBrainzURL = 'https://musicbrainz.org/ws/2/release?query=artist:' + artistName + '&fmt=json';
 
+            fetch(musicBrainzURL)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    console.log("Music Brainz Data", data);
+
+                    document.querySelector('#the-artist').textContent = artistName;
+
+                    for (var i = 0; i < data.releases.length; i++) {
+                        var liEl = document.createElement('li');
+                        liEl.textContent = data.releases[i].title;
+                        document.querySelector('#artist-results').append(liEl);
+                    }
+
+                    // Call Java function to get more information about the artist
+                    getMoreArtistInfo(artistName);
+                });
+        }
+
+        function getMoreArtistInfo(artistName) {
+            // Make an additional request to the Java server to get more information
+            fetch('/getMoreArtistInfo?artistName=' + artistName)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (additionalInfo) {
+                    console.log("Additional Artist Information from Java:", additionalInfo);
+                    // Process and display additional information on the web page
+                });
+        }
+
+        searchArtist.addEventListener(`click`, function () {
+            var artistInput = document.querySelector('#artist-name');
+            var artistName = artistInput.value.trim();
+            getMusic(artistName);
+        });
+    </script>
 </body>
 </html>
+
