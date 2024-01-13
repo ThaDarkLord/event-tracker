@@ -166,14 +166,16 @@ function artistSearch(event) {
                             console.log(currentEvent);
                             savedEvents.push(currentEvent)
                             localStorage.setItem(`savedEventsKey`, JSON.stringify(savedEvents))
-                        }
+                          }
+                      
 
                     } )
                     
 
                 }
             }
-        });
+          });
+        
 }
 
 function cityStateSearch(event) {
@@ -281,4 +283,13 @@ function cityStateSearch(event) {
 artistForm.addEventListener(`submit`, artistSearch);
 cityStateForm.addEventListener(`submit`, cityStateSearch);
 
+function retrievSavedEvents(){
+   JSON.parse(localStorage.getItem(savedEvents))
+   for (var i = 0; i < savedEvents.length; i++) {
+    console.log(savedEvents[i])
+    
+   }
+}
+
+  
 
