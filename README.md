@@ -10,9 +10,10 @@ The best way to utilize the application is having an artist name, city and state
 
 
 
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README using the following syntax:
 
-![image of live site](assets/images/screenshot.png)
+![Event Tracker Sample Image](./assets/img/thadarklord.github.io_event-tracker_index.html%20(2).png).
+
+![Saved Cards Sample Image](./assets/img/thadarklord.github.io_event-tracker_savedCards.html.png).
 
 ## Credits
 
@@ -29,6 +30,7 @@ https://www.last.fm/api
 
 TicketMaster API
 https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/ 
+
 
 link to deployed application:
 https://thadarklord.github.io/event-tracker/index.html
