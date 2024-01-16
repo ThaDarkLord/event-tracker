@@ -11,6 +11,7 @@ var artName = document.getElementById("artName");
 var artGenre = document.getElementById("artGenre");
 var artRecent = document.getElementById("artRecent");
 var eventFeed = document.getElementById(`eventFeed`)
+var savedCards = document.getElementById(`savedCards`)
 
 var eventNameDisplay = document.querySelectorAll(".event-name");
 var eventDateTime = document.querySelectorAll(".date-time");
@@ -35,6 +36,7 @@ function artistSearch(event) {
     if(!savedEvents){
         savedEvents = [];
     }
+
     var searchedArtist = artistInput.value.trim();
     console.log(searchedArtist);
     var artistEvents = `https://app.ticketmaster.com/discovery/v2/events?apikey=${ticketMasterKey}&keyword=${searchedArtist}&locale=*&sort=date,asc&classificationName=music`;
@@ -181,6 +183,13 @@ function artistSearch(event) {
 function cityStateSearch(event) {
     event.preventDefault();
 
+    eventFeed.innerHTML = ``
+
+    savedEvents = JSON.parse(localStorage.getItem(`savedEventsKey`))
+    if(!savedEvents){
+        savedEvents = [];
+    }
+
     var searchedCity = cityInput.value.trim();
     console.log(searchedCity);
     var selectedState = stateInput.value;
@@ -194,11 +203,11 @@ function cityStateSearch(event) {
         .then(function (data) {
 
             for (let i = 0; i < data._embedded.events.length; i++) {
-                console.log(data._embedded.events[i]);
+                // console.log(data._embedded.events[i]);
 
                 // *Container Article
                 var articleContainer = document.createElement(`article`)
-                articleContainer.setAttribute(`class`, `column is-8`)
+                articleContainer.setAttribute(`class`, `column is-8 buttonLink`)
 
                 // *Event Name Article
                 var eventNameArticle = document.createElement(`article`)
@@ -232,17 +241,17 @@ function cityStateSearch(event) {
                 eventVenuePara.setAttribute(`class`, `card-header-title event-name`)
 
 
+                var eventSaveButton = document.createElement(`button`)
+                eventSaveButton.setAttribute(`class`, `button is-small is-primary`)
+                eventSaveButton.textContent = `Save Event`
+
+
                 // if (data._embedded.events[i] == data._embedded.events[2]) {
                 eventNamePara.textContent =
                     "Event Name: " + data._embedded.events[i].name;
-                if (data._embedded.events[i].dates.start.dateTime) {
-                    eventDtPara.textContent =
-                        "Date/Time: " + data._embedded.events[i].dates.start.dateTime;
-                }
-                else {
-                    eventDtPara.textContent =
-                        "Date/Time: " + data._embedded.events[i].dates.start.localDate
-                }
+                eventDtPara.textContent =
+                    "Date/Time: " + data._embedded.events[i].dates.start.dateTime;
+
                 if (!data._embedded.events[i]._embedded.venues[0].state) {
                     eventCityPara.textContent = "City: " + data._embedded.events[i]._embedded.venues[0].city.name
                 }
@@ -251,6 +260,17 @@ function cityStateSearch(event) {
                 }
                 eventVenuePara.textContent =
                     "Venue: " + data._embedded.events[i]._embedded.venues[0].name;
+
+
+                // var storedEName = data._embedded.events[0].name
+                // localStorage.setItem('EventName', storedEName)
+                // var storedEDate = data._embedded.events[0].dates.start.dateTime
+                // localStorage.setItem('EventDate', storedEDate)
+                // var storedELocation = data._embedded.events[0]._embedded.venues[0].city.name + data._embedded.events[0]._embedded.venues[0].state.stateCode
+                // localStorage.setItem('EventLocation', storedELocation)
+                // var storedEVenue = data._embedded.events[0]._embedded.venues[0].name
+                // localStorage.setItem('EventVenue', storedEVenue)
+
 
                 // }
 
@@ -269,15 +289,42 @@ function cityStateSearch(event) {
                 } else {
                     console.log(`No Venue`);
                 }
-                articleContainer.append(eventNameArticle, eventDtArticle, eventCityArticle, eventVenueArticle)
+                articleContainer.append(eventNameArticle, eventDtArticle, eventCityArticle, eventVenueArticle, eventSaveButton)
 
                 eventFeed.append(articleContainer)
+
+                eventSaveButton.addEventListener (`click`, function(event) {
+                    if(event.target.matches(`button`)){
+                        console.log(event.target);
+
+                        var storedEName = data._embedded.events[i].name
+                        // localStorage.setItem('EventName', storedEName)
+                        var storedEDate = data._embedded.events[i].dates.start.dateTime
+                        // localStorage.setItem('EventDate', storedEDate)
+                        var storedELocation = data._embedded.events[i]._embedded.venues[0].city.name + data._embedded.events[i]._embedded.venues[0].state.stateCode
+                        // localStorage.setItem('EventLocation', storedELocation)
+                        var storedEVenue = data._embedded.events[i]._embedded.venues[0].name
+                        // localStorage.setItem('EventVenue', storedEVenue)
+                        var currentEvent = {
+                            name: storedEName,
+                            date: storedEDate,
+                            location: storedELocation,
+                            venue: storedEVenue
+                        };
+                        console.log(currentEvent);
+                        savedEvents.push(currentEvent)
+                        localStorage.setItem(`savedEventsKey`, JSON.stringify(savedEvents))
+                    }
+
+                } )
+                
 
             }
 
 
         });
 }
+
 
 
 artistForm.addEventListener(`submit`, artistSearch);
