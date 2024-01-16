@@ -1,8 +1,19 @@
+html{
+    background-color: teal;
+}
 
+*{
+    background-color: teal;
+    
+}
 
 .column{
-    border: solid 1px;
+    /* border: solid 1px; */
     border-radius: 15px;
+}
+.subtitle{
+    color: rgb(48, 47, 47);
+    
 }
 
 .card{
@@ -11,7 +22,35 @@
 .hideMe{
     border: 0px;
 }
+/* below makes the color for the titles of the text box: search by artist and search by city */
+h2{
+    color: rgb(27, 26, 26);
+}
+
+p{
+    color: rgb(27, 26, 26);
+
+}
+button{
+    background-color: rgb(48, 47, 47) !important;
+    
+}
+
+input{
+    background-color: rgb(48, 47, 47);
+    color: white;
+}
+
+select{
+    background-color: rgb(48, 47, 47);
+    color: white;
+}
+
+p{
+    color: rgb(43, 42, 42)
+}
 
 /* #hidden-0, #hidden-1, #hidden-2{
     display: none;
 } */
+
